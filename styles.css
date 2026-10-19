@@ -1,12 +1,13 @@
-/* styles.css */
 :root {
   --primary: #0d1117;
   --secondary: #161b22;
   --accent: #ffc43d;
   --padlet-accent: #ff0055;
   --padlet-blue: #00d2ff;
+  --card-bg: #fef8e8;
   --success: #00ff88;
   --danger: #ff4444;
+  --text-dark: #222;
   --text-light: #f8fafc;
 }
 
@@ -14,8 +15,8 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Fredoka', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  touch-action: manipulation; /* Solves mobile lag */
+  font-family: 'Fredoka', 'Segoe UI', Tahoma, Geneva, sans-serif;
+  touch-action: manipulation;
 }
 
 body {
@@ -35,7 +36,7 @@ body {
   background-color: var(--secondary);
   position: relative;
   overflow: hidden;
-  box-shadow: 0 0 50px rgba(0,0,0,1);
+  box-shadow: 0 0 50px rgba(0,0,0,0.8);
   border: 4px solid #333;
   border-radius: 20px;
 }
@@ -52,65 +53,360 @@ body {
   display: flex;
 }
 
-/* REGISTRATION (Card style matches screenshot_2) */
-.login-card {
+/* CARDS */
+.card {
+  background-color: var(--card-bg);
+  color: var(--text-dark);
+  padding: 20px;
+  border-radius: 20px;
+  border: 4px solid var(--padlet-blue);
+  box-shadow: 0 8px 0 var(--padlet-blue);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.screen-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.acr-badge {
+  background: var(--padlet-accent);
+  color: white;
+  font-weight: bold;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
   justify-content: center;
+  align-items: center;
+  margin: 0 auto 8px auto;
+}
+
+.header-logo h2 {
+  color: var(--padlet-accent);
+  font-size: 1.8rem;
+  text-align: center;
+}
+
+.header-logo p {
+  text-align: center;
+  color: #666;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form-row {
+  display: flex;
   gap: 10px;
 }
 
-.card {
-  background-color: #fef8e8; /* Off-white card from Padlet */
-  color: #333;
-  padding: 20px;
-  border-radius: 20px;
-  border: 4px solid var(-- padlet-blue);
-  box-shadow: 0 10px 0 var(--padlet-blue);
+.form-row .form-group {
+  flex: 1;
 }
 
-.header-logo h2 { color: var(--padlet-accent); font-size: 2rem; text-align: center; }
-.header-logo p { text-align: center; color: #555; }
+label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #444;
+}
 
-.form-group { display: flex; flex-direction: column; margin-bottom: 10px; }
-.form-row { display: flex; gap: 10px; }
-.form-row .form-group { flex: 1; }
-label { font-size: 0.85rem; font-weight: bold; color: #555; margin-bottom: 4px; }
-input, select { padding: 12px; border-radius: 8px; border: 2px solid #ccc; font-size: 1rem; }
+input, select {
+  padding: 12px;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+  font-size: 1rem;
+}
 
-.btn { padding: 12px 20px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer; transition: transform 0.1s; }
-.btn-start { background-color: var(--padlet-accent); color: white; width: 100%; margin-top: 10px; box-shadow: 0 6px 0 #cc0044; }
-.btn-start:active { transform: translateY(3px); box-shadow: 0 3px 0 #cc0044; }
+/* BUTTONS */
+.btn {
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
 
-/* CAREER SELECT (Matches screenshot_54) */
-.career-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
-.career-btn { padding: 15px; border-radius: 12px; border: 4px solid #ccc; text-align: left; background: white; cursor: pointer; color: #333;}
-.career-btn b { color: var(-- padlet-accent); font-size: 1.1rem; }
-.career-btn span.icon { display: block; width: 30px; height: 30px; line-height: 30px; text-align: center; background: #333; color: white; border-radius: 50%; font-weight: bold; margin-bottom: 8px; }
-.career-btn.engineer { border-color: #ccffaa; }
-.career-btn.accountant { border-color: #aaccff; }
-.career-btn.teacher { border-color: #ffaaee; }
-.career-btn.data { border-color: #ffeeaa; }
+.btn:active {
+  transform: translateY(2px);
+}
 
-/* RPG OVERWORLD & HUD (Matches screenshots_55-57) */
-.game-hud { display: flex; justify-content: space-between; align-items: center; padding: 10px; background: rgba(0,0,0,0.5); border-radius: 10px; }
-.career-tag { background: var(-- padlet-accent); padding: 2px 6px; border-radius: 8px; font-size: 0.7rem; }
-.stats-group { display: flex; gap: 8px; }
-.stat-box { color: var(--padlet-yellow); font-weight: bold; }
+.btn-start {
+  background-color: var(--padlet-accent);
+  color: white;
+  box-shadow: 0 5px 0 #cc0044;
+  font-size: 1.1rem;
+}
 
-#game-canvas-container { position: relative; width: 100%; height: 400px; margin-top: 10px; border-radius: 12px; overflow: hidden;}
-#rpg-canvas { background: #333; }
+.btn-back {
+  background-color: #e2e8f0;
+  color: #334155;
+}
 
-/* Controls (screenshot_57) */
-.game-controls { display: flex; justify-content: space-between; align-items: center; padding-top: 15px; height: 160px;}
-#virtual-dpad { display: grid; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 6px; width: 150px;}
-#virtual-dpad button { background: #444; color: white; border: none; font-size: 1.5rem; border-radius: 8px; height: 60px;}
+.btn-ghost {
+  background: transparent;
+  border: 2px solid #ccc;
+  color: #555;
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  color: #0077cc;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+/* CAREER GRID */
+.career-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.career-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 3px solid #ccc;
+  background: white;
+  cursor: pointer;
+  text-align: left;
+}
+
+.icon-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #333;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+.gear-tag {
+  font-size: 0.75rem;
+  background: #eee;
+  padding: 2px 6px;
+  border-radius: 6px;
+  margin-top: 4px;
+  display: inline-block;
+}
+
+/* HUD & OVERWORLD */
+.game-hud {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1e293b;
+  padding: 8px 12px;
+  border-radius: 12px;
+}
+
+.player-profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.avatar-preview-small {
+  width: 24px;
+  height: 24px;
+  background: var(--padlet-accent);
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.career-tag {
+  font-size: 0.7rem;
+  background: var(--padlet-blue);
+  color: #000;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.stats-group {
+  display: flex;
+  gap: 8px;
+}
+
+.stat-box {
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+#game-canvas-container {
+  position: relative;
+  width: 100%;
+  height: 380px;
+  margin-top: 10px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 3px solid #334155;
+}
+
+#rpg-canvas {
+  background: #2d3748;
+}
+
+/* DIALOGUE POPUP */
+.dialogue-card {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  background: #fef8e8;
+  color: #222;
+  padding: 12px;
+  border-radius: 12px;
+  border: 3px solid var(--padlet-accent);
+}
+
+.dialogue-card.hidden { display: none; }
+
+/* CONTROLS FOOTER */
+.game-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+}
+
+#virtual-dpad {
+  display: grid;
+  grid-template-columns: repeat(3, 40px);
+  grid-template-rows: repeat(2, 40px);
+  gap: 4px;
+}
+
+.ctrl-btn {
+  background: #334155;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
 .ctrl-up { grid-column: 2; }
 .ctrl-left { grid-column: 1; grid-row: 2; }
 .ctrl-right { grid-column: 3; grid-row: 2; }
 .ctrl-down { grid-column: 2; grid-row: 2; }
 
-#minimap-container { width: 100px; height: 100px; border: 3px solid #666; border-radius: 8px; overflow: hidden; }
+.btn-interact {
+  background: var(--accent);
+  color: #000;
+  padding: 14px;
+  border-radius: 12px;
+}
+
+#minimap-container {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  border: 2px solid #555;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.minimap-label {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  font-size: 0.6rem;
+  background: rgba(0,0,0,0.6);
+  padding: 1px 4px;
+}
 
 /* MODALS */
-.modal { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; padding: 20px;}
-.modal.active { display: flex; z-index: 99; }
-.hidden { display: none; }
+.modal {
+  display: none;
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.85);
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  z-index: 100;
+}
+
+.modal.active { display: flex; }
+
+.modal-content {
+  background: var(--card-bg);
+  color: var(--text-dark);
+  padding: 20px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.polya-tracker {
+  display: flex;
+  gap: 4px;
+  font-size: 0.75rem;
+}
+
+.polya-tracker span {
+  flex: 1;
+  padding: 4px;
+  background: #ddd;
+  text-align: center;
+  border-radius: 4px;
+}
+
+.polya-tracker span.active {
+  background: var(--padlet-accent);
+  color: white;
+  font-weight: bold;
+}
+
+.question-box {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+  min-height: 70px;
+}
+
+.options-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.option-btn {
+  padding: 10px;
+  border-radius: 8px;
+  border: 2px solid #ccc;
+  background: white;
+  text-align: left;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.feedback {
+  text-align: center;
+  font-weight: bold;
+  min-height: 20px;
+}
+.feedback.correct { color: var(--success); }
+.feedback.incorrect { color: var(--danger); }
