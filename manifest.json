@@ -1,0 +1,20 @@
+{
+  "name": "Targeting Math Quest - ACR Edition",
+  "short_name": "Math Quest",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#1a1a1a",
+  "theme_color": "#8B0000",
+  "icons": [
+    {
+      "src": "https://via.placeholder.com/192x192/8B0000/FFD700?text=ACR",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://via.placeholder.com/512x512/8B0000/FFD700?text=ACR",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
