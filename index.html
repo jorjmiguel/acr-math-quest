@@ -2,12 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Targeting Math Quest - ACR Edition</title>
-
-  <!-- PWA LINKING -->
+  <link rel="stylesheet" href="styles.css">
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#8B0000">
+  <meta name="theme-color" content="#14307a">
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
@@ -15,374 +14,84 @@
       });
     }
   </script>
-
-  <style>
-    :root {
-      --acr-red: #8B0000;
-      --acr-gold: #FFD700;
-      --bg-dark: #1a1a1a;
-      --card-bg: #2d2d2d;
-      --text-light: #ffffff;
-    }
-
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: var(--bg-dark);
-      color: var(--text-light);
-      margin: 0;
-      padding: 16px;
-      display: flex;
-      justify-content: center;
-    }
-
-    .game-container {
-      width: 100%;
-      max-width: 480px;
-      background: var(--card-bg);
-      border: 3px solid var(--acr-gold);
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-    }
-
-    .header {
-      text-align: center;
-      border-bottom: 2px solid var(--acr-red);
-      padding-bottom: 12px;
-      margin-bottom: 16px;
-    }
-
-    .header h1 {
-      margin: 0;
-      font-size: 20px;
-      color: var(--acr-gold);
-    }
-
-    .header p {
-      margin: 4px 0 0 0;
-      font-size: 12px;
-      color: #aaa;
-    }
-
-    .stats-panel {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      background: #1e1e1e;
-      padding: 12px;
-      border-radius: 8px;
-      margin-bottom: 16px;
-      font-size: 14px;
-    }
-
-    .stat-item {
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .stat-value {
-      font-weight: bold;
-      color: var(--acr-gold);
-    }
-
-    .login-box, .game-box, .override-box {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    input, select, button {
-      padding: 10px;
-      border-radius: 6px;
-      border: 1px solid #444;
-      font-size: 14px;
-    }
-
-    input, select {
-      background: #333;
-      color: white;
-    }
-
-    button {
-      background: var(--acr-red);
-      color: white;
-      font-weight: bold;
-      border: 1px solid var(--acr-gold);
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    button:hover {
-      background: #a00000;
-    }
-
-    .btn-secondary {
-      background: #444;
-      border-color: #666;
-    }
-
-    .save-code-banner {
-      background: #113f11;
-      border: 1px solid #2e8b57;
-      padding: 10px;
-      border-radius: 6px;
-      text-align: center;
-      font-size: 13px;
-      margin-top: 10px;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    .status-msg {
-      font-size: 12px;
-      text-align: center;
-      color: #888;
-      margin-top: 8px;
-    }
-  </style>
 </head>
 <body>
+  <div id="app">
+    <!-- START SCREEN -->
+    <div id="screen-start" class="screen active">
+      <div class="start-inner">
+        <div class="sym s1">%</div>
+        <div class="sym s2">+</div>
+        <div class="sym s3">×</div>
+        <div class="sym s4">÷</div>
+        <div class="sym s5">=</div>
+        <div class="sym s6">√</div>
+        <h1 id="game-title">Targeting Math Quest</h1>
+        <div id="instructions">
+          Conquer Math at <span class="hl">Assumption College Rayong</span>
+        </div>
+        <div class="creator">Created by <b>Master George Cedrick Miguel</b></div>
+        <div class="start-btns">
+          <button id="btn-start" class="btn btn-primary" onclick="startGame()">Start Quest</button>
+          <div class="start-alt">
+            <button id="btn-free" class="btn btn-ghost" onclick="startGuestMode()">
+              <span class="bf-main">Free Play</span>
+              <span class="bf-sub">No sign-in required</span>
+            </button>
+            <button id="btn-duo" class="btn btn-ghost" onclick="startDuoMode()">
+              <span class="bf-main">Duo Quest</span>
+              <span class="bf-sub">Share one device</span>
+            </button>
+          </div>
+          <button class="btn btn-dev" onclick="toggleRestoreModal()">Enter Save Code / PIN</button>
+        </div>
+      </div>
+    </div>
 
-<div class="game-container">
-  <div class="header">
-    <h1>⚔️ TARGETING MATH QUEST</h1>
-    <p>Assumption College Rayong (อสช.)</p>
-  </div>
+    <!-- PLAY SCREEN -->
+    <div id="screen-play" class="screen">
+      <div id="hud">
+        <div class="hud-row">
+          <div class="lvl-badge">LVL <span id="hud-level">1</span></div>
+          <div class="xp-wrap">
+            <div class="bar xp-bar"><div id="xp-fill" class="fill" style="width:0%"></div></div>
+          </div>
+          <div class="score-box">XP: <span id="score">0</span></div>
+        </div>
+        <div class="hud-row hud-stats">
+          <div class="stat"><span class="stat-lbl">HP</span><div class="bar hp-bar"><div id="hp-fill" class="fill" style="width:100%"></div></div></div>
+          <div class="stat"><span class="stat-lbl">MP</span><div class="bar mp-bar"><div id="mp-fill" class="fill" style="width:100%"></div></div></div>
+        </div>
+      </div>
 
-  <div id="loginSection" class="login-box">
-    <h3>🎓 Student Entry</h3>
-    <input type="text" id="studentId" placeholder="Student ID (e.g., 50612)">
-    <input type="text" id="realName" placeholder="Real Name (e.g., George Miguel)">
-    <select id="sectionSelect">
-      <option value="5/1">Section 5/1</option>
-      <option value="5/2">Section 5/2</option>
-      <option value="5/3">Section 5/3</option>
-      <option value="5/4">Section 5/4</option>
-      <option value="5/5">Section 5/5</option>
-      <option value="5/6" selected>Section 5/6</option>
-    </select>
-    <button onclick="startGame()">Start Quest / Auto-Resume</button>
-    <button class="btn-secondary" onclick="showRestoreInput()">Enter Save Code</button>
-    
-    <div id="codeRestoreBox" class="hidden" style="display:flex; gap:8px; margin-top:8px;">
-      <input type="text" id="manualSaveCode" placeholder="Code (e.g., ACR-9X2K)">
-      <button onclick="restoreFromCode()">Restore</button>
+      <div id="stage">
+        <div id="zone-tag"><span id="zone-text">Week 1: Whole Numbers</span></div>
+        <div id="float-layer"></div>
+      </div>
+
+      <!-- BATTLE CARD OVERLAY -->
+      <div id="battle">
+        <div class="b-top">
+          <div class="foe-info">
+            <div class="foe-name" id="foe-name">Math Boss</div>
+            <div class="bar foe-bar"><div id="foe-hp-fill" class="fill" style="width:100%"></div></div>
+            <div class="foe-sub" id="foe-sub">Grade 5 Challenge</div>
+          </div>
+        </div>
+        <div class="b-mid">
+          <div class="q-card">
+            <div class="q-text" id="q-text">Loading question...</div>
+            <div class="choices" id="choices-box"></div>
+            <div class="feedback" id="feedback"></div>
+          </div>
+        </div>
+        <div class="b-bot">
+          <button class="btn btn-skill" onclick="manualSave()">💾 Save Progress</button>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div id="gameSection" class="game-box hidden">
-    <div class="stats-panel">
-      <div class="stat-item"><span>Student:</span> <span id="displayStudent" class="stat-value">-</span></div>
-      <div class="stat-item"><span>Level:</span> <span id="displayLevel" class="stat-value">1</span></div>
-      <div class="stat-item"><span>XP:</span> <span id="displayXP" class="stat-value">0</span></div>
-      <div class="stat-item"><span>Gold:</span> <span id="displayGold" class="stat-value">0</span></div>
-    </div>
-
-    <div style="background:#222; padding:12px; border-radius:6px; text-align:center;">
-      <span id="displayModule" style="color:var(--acr-gold); font-weight:bold;">Week 1: Whole Numbers</span>
-    </div>
-
-    <button onclick="simulateProgress()">Complete Math Problem (+50 XP, +20 Gold)</button>
-    <button class="btn-secondary" onclick="manualSave()">💾 Save Game Now</button>
-    <button class="btn-secondary" style="background:#555;" onclick="openTeacherOverride()">🔑 Teacher Override Panel</button>
-
-    <div class="save-code-banner">
-      Backup Save Code: <b id="displaySaveCode" style="color:var(--acr-gold);">ACR-INIT</b>
-    </div>
-  </div>
-
-  <div id="overrideSection" class="override-box hidden">
-    <h3>🔑 Master George Admin Override</h3>
-    <p style="font-size:12px; color:#ccc;">Use this panel to manually set student progress if all local/cloud restores fail.</p>
-    <input type="password" id="adminPass" placeholder="Enter Teacher PIN (Default: 1234)">
-    <select id="setModule">
-      <option value="Week 1: Whole Numbers">Week 1: Whole Numbers</option>
-      <option value="Week 6: Fractions">Week 6: Fractions</option>
-      <option value="Week 14: Volume">Week 14: Volume</option>
-      <option value="Week 19: Decimals">Week 19: Decimals</option>
-      <option value="Week 26: Angles">Week 26: Angles</option>
-    </select>
-    <input type="number" id="setLevel" placeholder="Set Level (e.g., 12)">
-    <button onclick="applyTeacherOverride()">Apply Override & Restore</button>
-    <button class="btn-secondary" onclick="closeTeacherOverride()">Back to Game</button>
-  </div>
-
-  <div id="statusMsg" class="status-msg">System Ready.</div>
-</div>
-
-<script>
-  const SAVE_API_URL = "https://script.google.com/macros/s/AKfycby7iXpQHmXx8bJzzwqCrMFCh2qx2cA_po-ARY8P3Qg0T04w0F0nw3MiyFSdLR27-gvYTA/exec";
-
-  let player = {
-    id: "",
-    name: "",
-    section: "5/6",
-    level: 1,
-    xp: 0,
-    gold: 0,
-    module: "Week 1: Whole Numbers",
-    code: "ACR-0000"
-  };
-
-  function generateSaveCode() {
-    const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-    let code = "ACR-";
-    for(let i = 0; i < 4; i++) {
-      code += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return code;
-  }
-
-  function updateLocalState() {
-    localStorage.setItem("ACR_PLAYER_SAVE", JSON.stringify(player));
-  }
-
-  function sendCloudSave() {
-    updateStatus("Auto-saving to Google Sheets...");
-    updateLocalState();
-
-    const payload = {
-      studentId: player.id,
-      realName: player.name,
-      section: player.section,
-      level: player.level,
-      xp: player.xp,
-      gold: player.gold,
-      currentModule: player.module,
-      saveCode: player.code
-    };
-
-    fetch(SAVE_API_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    })
-    .then(() => updateStatus("Progress saved to cloud!"))
-    .catch(err => updateStatus("Saved locally (Offline)."));
-  }
-
-  function startGame() {
-    const id = document.getElementById("studentId").value.trim();
-    const name = document.getElementById("realName").value.trim();
-    const section = document.getElementById("sectionSelect").value;
-
-    if(!id || !name) {
-      alert("Please enter both Student ID and Real Name.");
-      return;
-    }
-
-    const localData = localStorage.getItem("ACR_PLAYER_SAVE");
-    if(localData) {
-      const parsed = JSON.parse(localData);
-      if(parsed.id === id) {
-        player = parsed;
-        updateStatus("Resumed from local save!");
-        renderGame();
-        return;
-      }
-    }
-
-    player.id = id;
-    player.name = name;
-    player.section = section;
-    player.code = generateSaveCode();
-
-    renderGame();
-    sendCloudSave();
-  }
-
-  function renderGame() {
-    document.getElementById("loginSection").classList.add("hidden");
-    document.getElementById("gameSection").classList.remove("hidden");
-
-    document.getElementById("displayStudent").innerText = `${player.name} (${player.section})`;
-    document.getElementById("displayLevel").innerText = player.level;
-    document.getElementById("displayXP").innerText = player.xp;
-    document.getElementById("displayGold").innerText = player.gold;
-    document.getElementById("displayModule").innerText = player.module;
-    document.getElementById("displaySaveCode").innerText = player.code;
-  }
-
-  function simulateProgress() {
-    player.xp += 50;
-    player.gold += 20;
-
-    if(player.xp >= player.level * 100) {
-      player.level += 1;
-      player.code = generateSaveCode();
-      alert(`🎉 LEVEL UP! You are now Level ${player.level}!`);
-    }
-
-    renderGame();
-    sendCloudSave();
-  }
-
-  function manualSave() {
-    sendCloudSave();
-  }
-
-  function openTeacherOverride() {
-    document.getElementById("gameSection").classList.add("hidden");
-    document.getElementById("overrideSection").classList.remove("hidden");
-  }
-
-  function closeTeacherOverride() {
-    document.getElementById("overrideSection").classList.add("hidden");
-    document.getElementById("gameSection").classList.remove("hidden");
-  }
-
-  function applyTeacherOverride() {
-    const pin = document.getElementById("adminPass").value;
-    if(pin !== "1234") {
-      alert("Incorrect Teacher PIN!");
-      return;
-    }
-
-    const newModule = document.getElementById("setModule").value;
-    const newLevel = parseInt(document.getElementById("setLevel").value) || player.level;
-
-    player.module = newModule;
-    player.level = newLevel;
-    player.xp = newLevel * 100;
-    player.code = generateSaveCode();
-
-    closeTeacherOverride();
-    renderGame();
-    sendCloudSave();
-    alert(`Success! Student restored to Level ${newLevel} in ${newModule}.`);
-  }
-
-  function showRestoreInput() {
-    document.getElementById("codeRestoreBox").classList.toggle("hidden");
-  }
-
-  function restoreFromCode() {
-    const code = document.getElementById("manualSaveCode").value.trim().toUpperCase();
-    if(!code) return;
-    
-    player.code = code;
-    player.level = 5;
-    player.xp = 500;
-    player.module = "Week 19: Decimals";
-
-    renderGame();
-    sendCloudSave();
-    alert("Profile restored from Resurrection Code!");
-  }
-
-  function updateStatus(msg) {
-    document.getElementById("statusMsg").innerText = msg;
-  }
-
-  window.addEventListener("visibilitychange", function() {
-    if (document.visibilityState === "hidden" && player.id) {
-      sendCloudSave();
-    }
-  });
-</script>
-
+  <script src="game.js"></script>
 </body>
 </html>
