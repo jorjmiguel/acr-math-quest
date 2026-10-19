@@ -7,16 +7,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-radial: radial-gradient(circle at center, #1e3a8a 0%, #0f172a 100%);
-      --card-cream: #fffdf5;
+      --bg-dark: #0b1120;
       --padlet-blue: #00d2ff;
       --padlet-pink: #ff0055;
       --padlet-yellow: #ffc43d;
-      --padlet-dark: #0b1120;
+      --card-cream: #fffdf5;
       --text-dark: #0f172a;
-      --text-light: #f8fafc;
-      --success: #10b981;
-      --danger: #ef4444;
     }
 
     * {
@@ -24,464 +20,271 @@
       margin: 0;
       padding: 0;
       font-family: 'Fredoka', 'Segoe UI', sans-serif;
-      touch-action: manipulation;
-      user-select: none;
     }
 
-    body {
-      background: var(--bg-radial);
-      color: var(--text-light);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+    body, html {
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-dark);
       overflow: hidden;
     }
 
-    #app-container {
+    /* FULLSCREEN EMBED CONTAINER */
+    #game-frame-container {
       width: 100vw;
       height: 100vh;
-      max-width: 500px;
-      max-height: 900px;
-      background: #0d1527;
       position: relative;
-      overflow: hidden;
-      border: 4px solid #1e293b;
-      box-shadow: 0 0 60px rgba(0,0,0,0.95);
-      border-radius: 24px;
-      display: flex;
-      flex-direction: column;
     }
 
-    .screen {
-      display: none;
+    iframe {
       width: 100%;
       height: 100%;
-      padding: 16px;
-      flex-direction: column;
-      overflow-y: auto;
+      border: none;
     }
 
-    .screen.active {
+    /* ONBOARDING & OVERLAY MODALS */
+    .overlay-modal {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(11, 17, 32, 0.95);
+      z-index: 9999;
       display: flex;
-    }
-
-    /* STARBURST LANDING (Matches screenshot_31) */
-    .landing-starburst {
-      background: radial-gradient(circle, #2563eb 0%, #1e1b4b 100%);
-      height: 100%;
-      border-radius: 18px;
-      display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 20px;
-      text-align: center;
-      position: relative;
+      padding: 16px;
     }
 
-    .crest-logo {
-      width: 70px;
-      height: 80px;
-      margin-bottom: 12px;
-      filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
-    }
-
-    .landing-title {
-      font-size: 2.2rem;
-      color: #ffffff;
-      text-shadow: 0 4px 0 #000;
-      line-height: 1.1;
-      margin-bottom: 6px;
-    }
-
-    .landing-sub {
-      font-size: 1.1rem;
-      color: var(--padlet-yellow);
-      margin-bottom: 8px;
-    }
-
-    .landing-author {
-      font-size: 0.8rem;
-      color: #cbd5e1;
-      margin-bottom: 24px;
-    }
-
-    /* PILL BUTTONS (Matches screenshot_31) */
-    .pill-btn {
-      padding: 14px 28px;
-      border-radius: 30px;
-      border: none;
-      font-weight: 700;
-      font-size: 1.1rem;
-      cursor: pointer;
-      margin-bottom: 10px;
-      width: 100%;
-      max-width: 320px;
-      box-shadow: 0 6px 0 rgba(0,0,0,0.4);
-      transition: transform 0.1s;
-    }
-
-    .pill-btn:active {
-      transform: translateY(3px);
-      box-shadow: 0 3px 0 rgba(0,0,0,0.4);
-    }
-
-    .btn-red { background: var(--padlet-pink); color: white; }
-    .btn-blue { background: #38bdf8; color: white; }
-    .btn-cream { background: var(--card-cream); color: var(--text-dark); }
-    .btn-dark { background: rgba(255,255,255,0.15); color: white; border: 2px dashed #94a3b8; }
-
-    /* PADLET CARDS & MODALS */
-    .padlet-modal {
+    .modal-card {
       background: var(--card-cream);
       color: var(--text-dark);
-      border-radius: 20px;
-      border: 4px solid var(--padlet-blue);
-      box-shadow: 0 8px 0 var(--padlet-blue);
-      padding: 20px;
-      position: relative;
-    }
-
-    .modal-overlay {
-      display: none;
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(11, 17, 32, 0.9);
-      z-index: 100;
-      padding: 16px;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .modal-overlay.active { display: flex; }
-
-    /* STYLE YOUR HERO (Matches screenshot_32) */
-    .hero-stage {
-      background: radial-gradient(circle, #334155 0%, #0f172a 100%);
-      border-radius: 16px;
-      height: 240px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      margin-bottom: 12px;
-    }
-
-    .category-tabs {
-      display: flex;
-      gap: 4px;
-      overflow-x: auto;
-      padding-bottom: 6px;
-      margin-bottom: 8px;
-    }
-
-    .tab-btn {
-      padding: 6px 12px;
-      border-radius: 8px;
-      background: #e2e8f0;
-      border: none;
-      font-weight: bold;
-      font-size: 0.8rem;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-
-    .tab-btn.active {
-      background: var(--padlet-yellow);
-      color: var(--text-dark);
-    }
-
-    .item-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 6px;
-      max-height: 140px;
-      overflow-y: auto;
-    }
-
-    .item-card {
-      background: white;
-      border: 2px solid #cbd5e1;
-      border-radius: 8px;
-      padding: 6px;
-      text-align: center;
-      font-size: 0.7rem;
-      cursor: pointer;
-    }
-
-    .item-card.selected {
-      border-color: var(--padlet-pink);
-      background: #fff5f7;
-    }
-
-    /* OVERWORLD UI & HUD */
-    .hud-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #0f172a;
-      padding: 8px 12px;
-      border-radius: 12px;
-      border: 2px solid #334155;
-    }
-
-    #canvas-wrap {
-      position: relative;
       width: 100%;
-      height: 380px;
-      margin: 8px 0;
-      border-radius: 16px;
-      overflow: hidden;
-      border: 3px solid #334155;
+      max-width: 440px;
+      padding: 24px;
+      border-radius: 24px;
+      border: 4px solid var(--padlet-blue);
+      box-shadow: 0 10px 0 var(--padlet-blue);
+      position: relative;
     }
 
-    canvas { width: 100%; height: 100%; display: block; }
+    .modal-title {
+      color: var(--padlet-pink);
+      text-align: center;
+      font-size: 1.8rem;
+      margin-bottom: 4px;
+    }
 
-    /* CONTROLS */
-    .dpad-row {
+    .modal-sub {
+      text-align: center;
+      color: #64748b;
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .dpad-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 40px);
-      grid-template-rows: repeat(2, 40px);
+      flex-direction: column;
       gap: 4px;
     }
 
-    .dpad-btn {
-      background: #1e293b;
-      color: white;
-      border: 2px solid #475569;
-      border-radius: 8px;
-      font-size: 1.2rem;
-      cursor: pointer;
+    .form-row {
+      display: flex;
+      gap: 8px;
     }
 
-    .dpad-up { grid-column: 2; }
-    .dpad-left { grid-column: 1; grid-row: 2; }
-    .dpad-right { grid-column: 3; grid-row: 2; }
-    .dpad-down { grid-column: 2; grid-row: 2; }
+    .form-row .form-group {
+      flex: 1;
+    }
+
+    label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    input, select {
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 2px solid #cbd5e1;
+      font-size: 0.95rem;
+      background: #ffffff;
+      width: 100%;
+    }
+
+    .pill-btn {
+      width: 100%;
+      padding: 12px;
+      border-radius: 30px;
+      border: none;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 8px;
+      box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+    }
+
+    .btn-pink { background: var(--padlet-pink); color: white; }
+    .btn-yellow { background: var(--padlet-yellow); color: var(--text-dark); }
+    .btn-ghost { background: transparent; border: 2px solid #cbd5e1; color: #64748b; }
+
+    /* FLOATING OVERLAY BAR FOR ACADEMIC LOGGING */
+    .academic-topbar {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 500;
+      display: flex;
+      gap: 8px;
+    }
+
+    .bar-btn {
+      background: rgba(15, 23, 42, 0.85);
+      color: white;
+      border: 2px solid var(--padlet-blue);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+    }
   </style>
 </head>
 <body>
 
-<div id="app-container">
-
-  <!-- ================= 1. STARBURST LANDING (Screenshot_31) ================= -->
-  <div id="screen-landing" class="screen active">
-    <div class="landing-starburst">
-      <!-- ACR Shield Crest SVG -->
-      <svg class="crest-logo" viewBox="0 0 100 120">
-        <path d="M10 10 L90 10 L90 70 Q50 110 10 70 Z" fill="#b91c1c" stroke="#f59e0b" stroke-width="4"/>
-        <path d="M50 10 L50 100" stroke="#f59e0b" stroke-width="3"/>
-        <path d="M10 50 L90 50" stroke="#f59e0b" stroke-width="3"/>
-        <path d="M35 30 L65 30 M50 20 L50 45" stroke="#ffffff" stroke-width="4"/>
-      </svg>
-
-      <h1 class="landing-title">TARGETING<br>MATH QUEST</h1>
-      <div class="landing-sub">Conquer math at<br>Assumption College Rayong</div>
-      <div class="landing-author">Created by <b>Master George Cedrick Miguel</b></div>
-
-      <button class="pill-btn btn-red" onclick="showForm()">Start</button>
-      <button class="pill-btn btn-blue" onclick="directPlay('Free Play')">Free Play<br><span style="font-size:0.75rem; font-weight:normal;">No sign in needed</span></button>
-      <button class="pill-btn btn-blue" onclick="directPlay('Duo')">Duo Quest<br><span style="font-size:0.75rem; font-weight:normal;">Share one device</span></button>
-      <button class="pill-btn btn-cream" onclick="openTeacherDashboard()">I am a teacher or staff</button>
-      <button class="pill-btn btn-dark" onclick="openTeacherDashboard()">Developer</button>
-    </div>
+  <!-- FLOATING HUD BAR (Teacher & Data Sync Controls) -->
+  <div class="academic-topbar">
+    <button class="bar-btn" onclick="openTeacherModal()">Teacher Mode</button>
+    <button class="bar-btn" onclick="openOnboarding()">Change Profile</button>
   </div>
 
-  <!-- ================= 2. SIGN IN MODAL ================= -->
-  <div id="screen-signin" class="screen">
-    <div class="padlet-modal">
-      <h2 style="color:var(--padlet-pink); text-align:center; margin-bottom:12px;">Student Onboarding</h2>
-      <form onsubmit="event.preventDefault(); completeSignIn();">
-        <div style="display:flex; gap:8px; margin-bottom:8px;">
-          <select id="in-grade" style="flex:1; padding:8px; border-radius:8px;">
-            <option value="P5">Primary 5</option>
-            <option value="P6">Primary 6</option>
-          </select>
-          <select id="in-sem" style="flex:1; padding:8px; border-radius:8px;">
-            <option value="1">Semester 1</option>
-            <option value="2">Semester 2</option>
-          </select>
+  <!-- ONBOARDING GATE (Gathers Telemetry Before Launch) -->
+  <div id="gate-modal" class="overlay-modal">
+    <div class="modal-card">
+      <h2 class="modal-title">TARGETING MATH QUEST</h2>
+      <p class="modal-sub">Assumption College Rayong Edition</p>
+
+      <form onsubmit="event.preventDefault(); launchGame();">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Grade Level</label>
+            <select id="st-grade" required>
+              <option value="P5">Primary 5</option>
+              <option value="P6">Primary 6</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Semester</label>
+            <select id="st-sem" required>
+              <option value="1">Semester 1</option>
+              <option value="2">Semester 2</option>
+            </select>
+          </div>
         </div>
-        <input type="text" id="in-name" placeholder="Full Student Name" required style="width:100%; padding:10px; border-radius:8px; margin-bottom:8px;">
-        <input type="text" id="in-id" placeholder="Student ID (e.g. 50612)" required style="width:100%; padding:10px; border-radius:8px; margin-bottom:12px;">
-        <button type="submit" class="pill-btn btn-red" style="width:100%;">Continue to Hero Style</button>
+
+        <div class="form-group">
+          <label>Full Student Name</label>
+          <input type="text" id="st-name" placeholder="George Miguel" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Section</label>
+            <input type="text" id="st-section" placeholder="5/1" required>
+          </div>
+          <div class="form-group">
+            <label>Student ID</label>
+            <input type="text" id="st-id" placeholder="50612" required>
+          </div>
+        </div>
+
+        <button type="submit" class="pill-btn btn-pink">Launch Game Quest</button>
       </form>
     </div>
   </div>
 
-  <!-- ================= 3. STYLE YOUR HERO (Screenshot_32) ================= -->
-  <div id="screen-stylehero" class="screen">
-    <div class="padlet-modal">
-      <h2 style="color:var(--padlet-pink); text-align:center; margin-bottom:8px;">Style your hero</h2>
+  <!-- TEACHER ADMIN MODAL -->
+  <div id="teacher-modal" class="overlay-modal" style="display:none;">
+    <div class="modal-card">
+      <h2 class="modal-title">Teacher Portal</h2>
+      <p class="modal-sub">Enter Access PIN</p>
 
-      <!-- HERO SVG VECTOR STAGE -->
-      <div class="hero-stage">
-        <svg id="hero-vector" viewBox="0 0 100 120" style="width:140px; height:160px;">
-          <!-- Aura -->
-          <circle id="v-aura" cx="50" cy="60" r="45" fill="none" stroke="#00d2ff" stroke-width="4" opacity="0.8"/>
-          <!-- Body / Coat -->
-          <rect id="v-body" x="35" y="65" width="30" height="35" rx="6" fill="#1e293b"/>
-          <!-- Head -->
-          <circle cx="50" cy="45" r="18" fill="#fbcfe8"/>
-          <!-- Eyes -->
-          <circle cx="44" cy="43" r="2" fill="#0f172a"/>
-          <circle cx="56" cy="43" r="2" fill="#0f172a"/>
-          <!-- Hair -->
-          <path id="v-hair" d="M30 42 Q50 20 70 42 Z" fill="#0f172a"/>
-          <!-- Gear / Hat -->
-          <rect id="v-gear" x="32" y="24" width="36" height="8" rx="3" fill="#f59e0b"/>
-        </svg>
+      <div id="teacher-lock">
+        <input type="password" id="teacher-pin" placeholder="Enter PIN (ACR2026)" style="margin-bottom: 12px;">
+        <button class="pill-btn btn-yellow" onclick="verifyPIN()">Unlock Portal</button>
+        <button class="pill-btn btn-ghost" onclick="closeTeacherModal()" style="margin-top:6px;">Close</button>
       </div>
 
-      <!-- Categories (Screenshot_32 Tabs) -->
-      <div class="category-tabs">
-        <button class="tab-btn active" onclick="switchTab('hair')">Hair</button>
-        <button class="tab-btn" onclick="switchTab('face')">Face</button>
-        <button class="tab-btn" onclick="switchTab('outfit')">Outfit</button>
-        <button class="tab-btn" onclick="switchTab('aura')">Aura</button>
-      </div>
-
-      <!-- Item Grid -->
-      <div class="item-grid" id="tab-items"></div>
-
-      <div style="display:flex; gap:6px; margin-top:10px;">
-        <button class="pill-btn btn-blue" style="flex:1; padding:8px; font-size:0.8rem;" onclick="applySignatureLook()">Signature Look</button>
-        <button class="pill-btn btn-red" style="flex:1; padding:8px; font-size:0.8rem;" onclick="enterOverworld()">Enter Map</button>
+      <div id="teacher-controls" style="display:none;">
+        <p style="font-size:0.85rem; margin-bottom:10px;"><b>Telemetry Connected:</b> Google Sheets Data Sync Active</p>
+        <button class="pill-btn btn-pink" onclick="alert('Focus Aura Activated (+5% XP for Class)')">Trigger Focus Aura Multiplier</button>
+        <button class="pill-btn btn-ghost" onclick="closeTeacherModal()" style="margin-top:8px;">Back to Game</button>
       </div>
     </div>
   </div>
 
-  <!-- ================= 4. OVERWORLD CAMPUS MAP ================= -->
-  <div id="screen-overworld" class="screen">
-    <div class="hud-bar">
-      <div>
-        <div style="font-weight:bold; font-size:0.85rem;" id="hud-name">George Miguel</div>
-        <div style="font-size:0.65rem; color:#f59e0b;" id="hud-title">Grand Master</div>
-      </div>
-      <div style="display:flex; gap:6px;">
-        <span style="color:#f59e0b; font-weight:bold; font-size:0.85rem;">GOLD 100</span>
-        <button class="tab-btn" onclick="openMenu()">Menu</button>
-      </div>
-    </div>
-
-    <div id="canvas-wrap">
-      <canvas id="gameCanvas" width="480" height="380"></canvas>
-    </div>
-
-    <div class="dpad-row">
-      <div class="dpad-grid">
-        <button class="dpad-btn dpad-up" onclick="movePlayer(0, -12)">▲</button>
-        <button class="dpad-btn dpad-left" onclick="movePlayer(-12, 0)">◀</button>
-        <button class="dpad-btn dpad-right" onclick="movePlayer(12, 0)">▶</button>
-        <button class="dpad-btn dpad-down" onclick="movePlayer(0, 12)">▼</button>
-      </div>
-      <button class="pill-btn btn-red" style="max-width:180px; padding:10px; font-size:0.9rem;" onclick="interact()">Interact (E)</button>
-    </div>
+  <!-- REAL PADLET ARCADE ENGINE EMBED -->
+  <div id="game-frame-container">
+    <iframe 
+      id="padlet-game-frame"
+      src="https://arcade.padlet.com/game/5K5M8Jk0KY" 
+      allow="autoplay; fullscreen; microphone; camera; geolocation" 
+      allowfullscreen>
+    </iframe>
   </div>
 
-</div>
+  <script>
+    // GOOGLE APPS SCRIPT WEB APP URL (Add your endpoint here)
+    const GOOGLE_SHEETS_SCRIPT_URL = "";
 
-<script>
-/* STATE & VECTOR ENGINE */
-const STATE = {
-  name: "George Miguel",
-  grade: "P5",
-  sem: "1",
-  aura: "#00d2ff",
-  hair: "#0f172a",
-  signature: false,
-  x: 240,
-  y: 300
-};
+    function launchGame() {
+      const studentData = {
+        name: document.getElementById('st-name').value,
+        grade: document.getElementById('st-grade').value,
+        sem: document.getElementById('st-sem').value,
+        section: document.getElementById('st-section').value,
+        studentId: document.getElementById('st-id').value,
+        timestamp: new Date().toISOString()
+      };
 
-function showForm() {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('screen-signin').classList.add('active');
-}
+      // Save locally
+      localStorage.setItem('acr_student_profile', JSON.stringify(studentData));
 
-function completeSignIn() {
-  STATE.name = document.getElementById('in-name').value;
-  STATE.grade = document.getElementById('in-grade').value;
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('screen-stylehero').classList.add('active');
-  renderTabItems('hair');
-}
+      // Sync to Google Sheets cloud telemetry backend
+      if (GOOGLE_SHEETS_SCRIPT_URL) {
+        fetch(GOOGLE_SHEETS_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(studentData)
+        }).catch(err => console.log('Sync offline'));
+      }
 
-function directPlay(mode) {
-  STATE.name = mode;
-  completeSignIn();
-}
+      // Hide onboarding and display full Padlet game
+      document.getElementById('gate-modal').style.display = 'none';
+    }
 
-/* STYLE YOUR HERO SYSTEM */
-function switchTab(type) {
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
-  renderTabItems(type);
-}
+    function openOnboarding() {
+      document.getElementById('gate-modal').style.display = 'flex';
+    }
 
-function renderTabItems(type) {
-  const box = document.getElementById('tab-items');
-  box.innerHTML = "";
-  if (type === 'hair') {
-    ['#0f172a', '#b91c1c', '#d97706', '#2563eb'].forEach(c => {
-      box.innerHTML += `<div class="item-card" onclick="setHair('${c}')"><div style="width:20px; height:20px; background:${c}; margin:0 auto; border-radius:50%;"></div>Hair Color</div>`;
-    });
-  } else if (type === 'aura') {
-    ['#00d2ff', '#ff0055', '#ffc43d', '#000000'].forEach(c => {
-      box.innerHTML += `<div class="item-card" onclick="setAura('${c}')"><div style="width:20px; height:20px; background:${c}; margin:0 auto; border-radius:50%;"></div>Aura Color</div>`;
-    });
-  }
-}
+    function openTeacherModal() {
+      document.getElementById('teacher-modal').style.display = 'flex';
+    }
 
-function setHair(c) { STATE.hair = c; document.getElementById('v-hair').setAttribute('fill', c); }
-function setAura(c) { STATE.aura = c; document.getElementById('v-aura').setAttribute('stroke', c); }
+    function closeTeacherModal() {
+      document.getElementById('teacher-modal').style.display = 'none';
+    }
 
-function applySignatureLook() {
-  STATE.signature = true;
-  setAura('#000000');
-  setHair('#000000');
-  alert("Master George Signature Look Equipped!");
-}
-
-function enterOverworld() {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('screen-overworld').classList.add('active');
-  document.getElementById('hud-name').innerText = STATE.name;
-  initCanvas();
-}
-
-/* CANVAS MAP ENGINE */
-let canvas, ctx;
-function initCanvas() {
-  canvas = document.getElementById('gameCanvas');
-  ctx = canvas.getContext('2d');
-  drawMap();
-}
-
-function drawMap() {
-  ctx.fillStyle = "#1e293b"; ctx.fillRect(0,0,480,380);
-  // Buildings
-  ctx.fillStyle = "#3b82f6"; ctx.fillRect(40,40,100,60); ctx.fillStyle="#fff"; ctx.fillText("Math Building", 45, 75);
-  ctx.fillStyle = "#10b981"; ctx.fillRect(160,120,160,100); ctx.fillText("Football Field", 200, 170);
-  // Hero Avatar
-  ctx.fillStyle = STATE.aura; ctx.beginPath(); ctx.arc(STATE.x, STATE.y, 12, 0, Math.PI*2); ctx.fill();
-  ctx.fillStyle = "#38bdf8"; ctx.fillRect(STATE.x-6, STATE.y-6, 12, 12);
-  requestAnimationFrame(drawMap);
-}
-
-function movePlayer(dx, dy) {
-  STATE.x += dx; STATE.y += dy;
-}
-function interact() {
-  alert("Interacting with Assumption College Rayong Campus!");
-}
-</script>
+    function verifyPIN() {
+      const pin = document.getElementById('teacher-pin').value;
+      if (pin === 'ACR2026') {
+        document.getElementById('teacher-lock').style.display = 'none';
+        document.getElementById('teacher-controls').style.display = 'block';
+      } else {
+        alert('Invalid Teacher PIN!');
+      }
+    }
+  </script>
 </body>
 </html>
