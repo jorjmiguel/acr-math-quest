@@ -1,18 +1,19 @@
 {
-  "name": "Targeting Math Quest - ACR Edition",
+  "name": "Targeting Math Quest",
   "short_name": "Math Quest",
+  "description": "Grade 5 Math RPG Game for Assumption College Rayong",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#1a1a1a",
-  "theme_color": "#8B0000",
+  "background_color": "#14307a",
+  "theme_color": "#14307a",
   "icons": [
     {
-      "src": "https://via.placeholder.com/192x192/8B0000/FFD700?text=ACR",
+      "src": "https://via.placeholder.com/192/14307a/ffffff?text=MathQuest",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "https://via.placeholder.com/512x512/8B0000/FFD700?text=ACR",
+      "src": "https://via.placeholder.com/512/14307a/ffffff?text=MathQuest",
       "sizes": "512x512",
       "type": "image/png"
     }
