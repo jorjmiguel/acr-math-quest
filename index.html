@@ -213,7 +213,6 @@
 </div>
 
 <script>
-  // YOUR LIVE GOOGLE APPS SCRIPT WEB APP URL IS LINKED BELOW:
   const SAVE_API_URL = "https://script.google.com/macros/s/AKfycby7iXpQHmXx8bJzzwqCrMFCh2qx2cA_po-ARY8P3Qg0T04w0F0nw3MiyFSdLR27-gvYTA/exec";
 
   let player = {
@@ -311,4 +310,79 @@
     player.xp += 50;
     player.gold += 20;
 
-    if(player.
+    if(player.xp >= player.level * 100) {
+      player.level += 1;
+      player.code = generateSaveCode();
+      alert(`🎉 LEVEL UP! You are now Level ${player.level}!`);
+    }
+
+    renderGame();
+    sendCloudSave();
+  }
+
+  function manualSave() {
+    sendCloudSave();
+  }
+
+  function openTeacherOverride() {
+    document.getElementById("gameSection").classList.add("hidden");
+    document.getElementById("overrideSection").classList.remove("hidden");
+  }
+
+  function closeTeacherOverride() {
+    document.getElementById("overrideSection").classList.add("hidden");
+    document.getElementById("gameSection").classList.remove("hidden");
+  }
+
+  function applyTeacherOverride() {
+    const pin = document.getElementById("adminPass").value;
+    if(pin !== "1234") {
+      alert("Incorrect Teacher PIN!");
+      return;
+    }
+
+    const newModule = document.getElementById("setModule").value;
+    const newLevel = parseInt(document.getElementById("setLevel").value) || player.level;
+
+    player.module = newModule;
+    player.level = newLevel;
+    player.xp = newLevel * 100;
+    player.code = generateSaveCode();
+
+    closeTeacherOverride();
+    renderGame();
+    sendCloudSave();
+    alert(`Success! Student restored to Level ${newLevel} in ${newModule}.`);
+  }
+
+  function showRestoreInput() {
+    document.getElementById("codeRestoreBox").classList.toggle("hidden");
+  }
+
+  function restoreFromCode() {
+    const code = document.getElementById("manualSaveCode").value.trim().toUpperCase();
+    if(!code) return;
+    
+    player.code = code;
+    player.level = 5;
+    player.xp = 500;
+    player.module = "Week 19: Decimals";
+
+    renderGame();
+    sendCloudSave();
+    alert("Profile restored from Resurrection Code!");
+  }
+
+  function updateStatus(msg) {
+    document.getElementById("statusMsg").innerText = msg;
+  }
+
+  window.addEventListener("visibilitychange", function() {
+    if (document.visibilityState === "hidden" && player.id) {
+      sendCloudSave();
+    }
+  });
+</script>
+
+</body>
+</html>
