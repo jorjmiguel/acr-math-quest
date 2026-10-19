@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Targeting Math Quest - ACR RPG Edition</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app-container">
+
+    <!-- 1. LOGIN / REGISTRATION GATE -->
+    <div id="screen-login" class="screen active">
+      <div class="card login-card">
+        <div class="header-logo">
+          <h2>TARGETING MATH QUEST</h2>
+          <p>Assumption College Rayong</p>
+        </div>
+        <form id="registration-form" onsubmit="handleRPGStart(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Grade Level</label>
+              <select id="student-grade" required>
+                <option value="P5">Primary 5</option>
+                <option value="P6">Primary 6</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Semester</label>
+              <select id="student-semester" required>
+                <option value="Sem1">Semester 1</option>
+                <option value="Sem2">Semester 2</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Full Student Name</label>
+            <input type="text" id="student-name" placeholder="George Miguel" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Student ID</label>
+              <input type="text" id="student-id" placeholder="50612" required>
+            </div>
+            <div class="form-group">
+              <label>Class Section</label>
+              <input type="text" id="student-section" placeholder="5/1" required>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-start">Start Adventure</button>
+        </form>
+        <div class="login-footer">
+          <button type="button" class="btn-link" onclick="openTeacherPinModal()">Teacher PIN Override</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. CAREER SELECT (Matches screenshot_54) -->
+    <div id="screen-career" class="screen">
+      <div class="card career-card">
+        <h3>Choose your Math Career</h3>
+        <p>This path is permanent and unlocks special gear and abilities.</p>
+        <div class="career-grid">
+          <button class="career-btn engineer" onclick="selectCareer('Engineer')">
+            <span class="icon">E</span> <b>Engineer</b><br>
+            <span class="bonus">+20% points in Geometric Sector / Cuboid Cove</span>
+          </button>
+          <button class="career-btn accountant" onclick="selectCareer('Accountant')">
+            <span class="icon">A</span> <b>Accountant</b><br>
+            <span class="bonus">+20% points in Number Fortress / Value Valley</span>
+          </button>
+          <button class="career-btn teacher" onclick="selectCareer('Teacher')">
+            <span class="icon">T</span> <b>Teacher</b><br>
+            <span class="bonus">+20% points in Fragmented Isles / Polygon Temple</span>
+          </button>
+          <button class="career-btn data" onclick="selectCareer('Data Scientist')">
+            <span class="icon">D</span> <b>Data Scientist</b><br>
+            <span class="bonus">+20% points in Value Valley / Decimal Dunes</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. RPG OVERWORLD SCREEN (Matches screenshots_55-57) -->
+    <div id="screen-rpg" class="screen">
+      <!-- HUD Header -->
+      <header class="game-hud">
+        <div class="player-profile">
+          <span id="hud-name">Player</span>```html
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Targeting Math Quest - ACR RPG Edition</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app-container">
+
+    <!-- 1. LOGIN / REGISTRATION GATE -->
+    <div id="screen-login" class="screen active">
+      <div class="card login-card">
+        <div class="header-logo">
+          <h2>TARGETING MATH QUEST</h2>
+          <p>Assumption College Rayong</p>
+        </div>
+        <form id="registration-form" onsubmit="handleRPGStart(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Grade Level</label>
+              <select id="student-grade" required>
+                <option value="P5">Primary 5</option>
+                <option value="P6">Primary 6</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Semester</label>
+              <select id="student-semester" required>
+                <option value="Sem1">Semester 1</option>
+                <option value="Sem2">Semester 2</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Full Student Name</label>
+            <input type="text" id="student-name" placeholder="George Miguel" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Student ID</label>
+              <input type="text" id="student-id" placeholder="50612" required>
+            </div>
+            <div class="form-group">
+              <label>Class Section</label>
+              <input type="text" id="student-section" placeholder="5/1" required>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-start">Start Adventure</button>
+        </form>
+        <div class="login-footer">
+          <button type="button" class="btn-link" onclick="openTeacherPinModal()">Teacher PIN Override</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. CAREER SELECT (Matches screenshot_54) -->
+    <div id="screen-career" class="screen">
+      <div class="card career-card">
+        <h3>Choose your Math Career</h3>
+        <p>This path is permanent and unlocks special gear and abilities.</p>
+        <div class="career-grid">
+          <button class="career-btn engineer" onclick="selectCareer('Engineer')">
+            <span class="icon">E</span> <b>Engineer</b><br>
+            <span class="bonus">+20% points in Geometric Sector / Cuboid Cove</span>
+          </button>
+          <button class="career-btn accountant" onclick="selectCareer('Accountant')">
+            <span class="icon">A</span> <b>Accountant</b><br>
+            <span class="bonus">+20% points in Number Fortress / Value Valley</span>
+          </button>
+          <button class="career-btn teacher" onclick="selectCareer('Teacher')">
+            <span class="icon">T</span> <b>Teacher</b><br>
+            <span class="bonus">+20% points in Fragmented Isles / Polygon Temple</span>
+          </button>
+          <button class="career-btn data" onclick="selectCareer('Data Scientist')">
+            <span class="icon">D</span> <b>Data Scientist</b><br>
+            <span class="bonus">+20% points in Value Valley / Decimal Dunes</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. RPG OVERWORLD SCREEN (Matches screenshots_55-57) -->
+    <div id="screen-rpg" class="screen">
+      <!-- HUD Header -->
+      <header class="game-hud">
+        <div class="player-profile">
+          <span id="hud-name">Player</span>
+          <span id="hud-career" class="career-tag">Engineer</span>
+        </div>
+        <div class="stats-group">
+          <div class="stat-box">LVL <span id="hud-lvl">1</span></div>
+          <div class="stat-box">XP <span id="hud-xp">0</span></div>
+        </div>
+      </header>
+
+      <!-- Game Map Canvas -->
+      <div id="game-canvas-container">
+        <canvas id="rpg-canvas" width="480" height="400"></canvas>
+        
+        <!-- Interactive Zone Overlays (Matches screenshot_56 Indicators) -->
+        <div id="zone-indicators"></div>
+        
+        <!-- Dialogue Box (For NPC Interacts) -->
+        <div id="dialogue-box" class="hidden">
+          <p id="dialogue-text"></p>
+          <button onclick="closeDialogue()">Next</button>
+        </div>
+      </div>
+
+      <!-- Controls & Minimap Footer -->
+      <footer class="game-controls">
+        <div id="virtual-dpad">
+          <button class="ctrl-up" ontouchstart="movePlayer('up')">▲</button>
+          <button class="ctrl-left" ontouchstart="movePlayer('left')">◀</button>
+          <button class="ctrl-right" ontouchstart="movePlayer('right')">▶</button>
+          <button class="ctrl-down" ontouchstart="movePlayer('down')">▼</button>
+        </div>
+        <div id="minimap-container">
+          <!-- Small Minimap Canvas -->
+          <canvas id="minimap-canvas" width="100" height="100"></canvas>
+        </div>
+      </footer>
+    </div>
+
+    <!-- 4. MATH BATTLE MODAL -->
+    <div id="modal-battle" class="modal">
+      <div class="modal-content battle-card">
+        <div class="battle-header">
+          <span id="battle-monster-name">Wild Math Problem</span>
+          <span id="battle-topic">Topic: Algebra</span>
+        </div>
+        <div class="question-box">
+          <p id="battle-question">Calculate the area of a circle with radius 7cm.</p>
+        </div>
+        <div id="battle-options" class="options-grid"></div>
+        <div id="battle-feedback" class="feedback"></div>
+      </div>
+    </div>
+
+    <!-- 5. TEACHER PIN OVERRIDE MODAL -->
+    <div id="modal-teacher" class="modal">
+      <div class="modal-content">
+        <h3>Teacher Administration</h3>
+        <p>Enter 4-Digit Alpha-Numeric PIN:</p>
+        <input type="password" id="teacher-pin-input" maxlength="4" placeholder="AAAA">
+        <div class="modal-actions">
+          <button type="button" class="btn" onclick="verifyTeacherPin()">Submit</button>
+          <button type="button" class="btn btn-ghost" onclick="closeTeacherPinModal()">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>
